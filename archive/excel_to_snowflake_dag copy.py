@@ -11,8 +11,7 @@ load_dotenv()
 with DAG(
     dag_id="excel_to_snowflake",
     start_date=datetime(2023, 1, 1),
-    # Runs at 00:00 (midnight) on Mondays, Wednesdays, Fridays
-    schedule_interval="0 0 * * 1,3,5",  # Cron syntax: min hour * * days(1=Mon)
+    schedule_interval="@daily",
     catchup=False
 ) as dag:
     etl_task = PythonOperator(
@@ -27,3 +26,4 @@ with DAG(
 
     # Set task dependencies
     etl_task >> new_task
+
